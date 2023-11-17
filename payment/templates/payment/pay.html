@@ -1,0 +1,24 @@
+{% extends 'base.html'  %}
+{% block content %}
+<div class="container text-center">
+    <p class="h1">Atualizar plano</p>
+    <p>Será cobrado um valor de <strong>R$ 27,90</strong> via pix.<br>Assim que o pagamento for confirmado, seu plano
+        será automaticamente atualizado.</p>
+    <form method="post" class="row justify-content-center">
+        {% csrf_token %}
+        <div class="col-sm-6 d-grid gap-2">
+            <div class="col ">
+                <input required type="text" class="form-control" placeholder="Nome" name="first_name">
+            </div>
+            <div class="col">
+                <input required type="text" class="form-control" placeholder="Sobrenome" name="last_name">
+            </div>
+
+            <div class="">
+                <input required type="text" name="cpf" placeholder="CPF" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Pagar</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

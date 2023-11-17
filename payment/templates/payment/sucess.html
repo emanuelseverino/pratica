@@ -1,0 +1,15 @@
+{% extends 'base.html'  %}
+{% block content %}
+<div class="container">
+    <div class="container">
+        <p class="h1">Olá, {{ usuario.get_full_name }}!</p>
+        <p class="p">{% if cpf %}Será gerada uma cobrança para o cpf: <strong>{{ cpf }}</strong>. {% endif %}Assim que o pagamento for
+            confirmado, o seu plano será atualizado.</p>
+        <img class="col" width="300" height="300" src="data:image/jpeg;base64,{{payment.qr_code64}}" alt="">
+        <div class="col-xs-12 col-sm-12 mb-2">
+            <label class="form-label">Copia e cola</label>
+            <input disabled class="form-control" type="text" value="{{ payment.qr_code }}"/>
+        </div>
+    </div>
+</div>
+{% endblock %}

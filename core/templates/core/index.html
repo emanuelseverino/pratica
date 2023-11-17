@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container text-center py-5">
+    <p class="display-4">A Melhor API para Você<br>Aprender Progamar</p>
+    <p>Vários End-Points para você praticar e tirar do papel o seu projeto.</p>
+    {% if user.is_authenticated %}
+    {% if user.expiration_plain %}
+    <a class="btn btn-danger" href="{% url 'payment' %}">Atualizar plano</a>
+    {% endif %}
+    {% else %}
+    <a class="btn btn-primary" href="{% url 'register' %}">Começar agora</a>
+    {% endif %}
+
+</div>
+{% endblock %}
