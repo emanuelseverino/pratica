@@ -132,7 +132,8 @@ def readHook(url):
 class WebHook(View):
 
     def post(self, request, *args, **kwargs):
-        body = json.loads(self.request.body)
+        print(self.request)
+        body = json.loads(self.request.body.decode())
         mensagem = str(body['resource'])
 
         pagamento = readHook(body['resource'])
