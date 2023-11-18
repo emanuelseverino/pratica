@@ -24,3 +24,11 @@ class Payment(models.Model):
 
     def __str__(self):
         return '%s - %s | %s' % (self.user, self.payment_id, self.status)
+
+
+class Cobranca(models.Model):
+    id_web = models.CharField(max_length=50, null=True, blank=True)
+    mensagem = models.CharField(max_length=50, null=True, blank=True)
+
+    def __str__(self):
+        return '%s - %s' % (self.id_web, self.mensagem)

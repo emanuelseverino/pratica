@@ -10,7 +10,7 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView
 
-from payment.models import Payment
+from payment.models import Payment, Cobranca
 
 
 class PayView(LoginRequiredMixin, View):
@@ -133,15 +133,19 @@ class WebHook(View):
 
     def post(self, request, *args, **kwargs):
         body = json.loads(self.request.body.decode())
-        # mensagem = str(body['resource'])
+        mensagem = str(body['resource'])
 
         pagamento = readHook(body['resource'])
 
-        # cobranca_id = str(body['resource']).replace('https://api.mercadolibre.com/collections/notifications/', '')
+        cobranca_id = str(body['resource']).replace('https://api.mercadolibre.com/collections/notifications/', '')
 
         if pagamento:
-            pass
+            cobranca = Cobranca(id_web=cobranca_id, mensagem='Cobrada com sucesso')
+            cobranca.save()
         else:
-            pass
+            cobranca = Cobranca(id_web=cobranca_id, mensagem='Erro ao processar cobrança')
+            cobranca.save()
 
         return HttpResponse(status=200)
+
+
