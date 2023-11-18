@@ -1,10 +1,11 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
-from django.utils.decorators import method_decorator
-from django.views import View
 import requests
 import json
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse
+from django.shortcuts import render
+from django.utils.decorators import method_decorator
+from django.views import View
 
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView
@@ -54,13 +55,16 @@ class PayView(LoginRequiredMixin, View):
             }
         }
         headers = {
-            #'Authorization': 'Bearer APP_USR-7893702088637531-012618-cd9f06ef47c005273a3cd983a2ce2902-119438936'
-            'Authorization': 'Bearer APP_USR-660711714671368-111714-aebe3a78fc8927e8cd0b79cb46bd5b65-119438936'
+            # 'Authorization': 'Bearer APP_USR-7893702088637531-012618-cd9f06ef47c005273a3cd983a2ce2902-119438936'
+            'Authorization': 'Bearer APP_USR-660711714671368-111714-aebe3a78fc8927e8cd0b79cb46bd5b65-119438936',
+            'x-idempotency-key': '123',
         }
 
         response = requests.post('https://api.mercadopago.com/v1/payments', json=data, headers=headers)
 
         data = json.loads(response.content)
+
+        print(data)
 
         if response.status_code == 201:
             cob = Payment.objects.create(
@@ -103,8 +107,9 @@ class PaymentsView(LoginRequiredMixin, ListView):
 
 def readHook(url):
     headers = {
-        #'Authorization': 'Bearer APP_USR-7893702088637531-012618-cd9f06ef47c005273a3cd983a2ce2902-119438936'
-        'Authorization': 'Bearer APP_USR-660711714671368-111714-aebe3a78fc8927e8cd0b79cb46bd5b65-119438936'
+        # 'Authorization': 'Bearer APP_USR-7893702088637531-012618-cd9f06ef47c005273a3cd983a2ce2902-119438936'
+        'Authorization': 'Bearer APP_USR-660711714671368-111714-aebe3a78fc8927e8cd0b79cb46bd5b65-119438936',
+        'x-idempotency-key': '123'
     }
     try:
         response = requests.get(url, headers=headers)
@@ -128,11 +133,11 @@ class WebHook(View):
 
     def post(self, request, *args, **kwargs):
         body = json.loads(self.request.body.decode())
-        #mensagem = str(body['resource'])
+        # mensagem = str(body['resource'])
 
         pagamento = readHook(body['resource'])
 
-        #cobranca_id = str(body['resource']).replace('https://api.mercadolibre.com/collections/notifications/', '')
+        # cobranca_id = str(body['resource']).replace('https://api.mercadolibre.com/collections/notifications/', '')
 
         if pagamento:
             pass
