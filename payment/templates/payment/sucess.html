@@ -1,15 +1,32 @@
 {% extends 'base.html'  %}
 {% block content %}
-<div class="container">
-    <div class="container">
-        <p class="h1">Olá, {{ usuario.get_full_name }}!</p>
-        <p class="p">{% if cpf %}Será gerada uma cobrança para o cpf: <strong>{{ cpf }}</strong>. {% endif %}Assim que o pagamento for
-            confirmado, o seu plano será atualizado.</p>
-        <img class="col" width="300" height="300" src="data:image/jpeg;base64,{{payment.qr_code64}}" alt="">
-        <div class="col-xs-12 col-sm-12 mb-2">
-            <label class="form-label">Copia e cola</label>
-            <input disabled class="form-control" type="text" value="{{ payment.qr_code }}"/>
-        </div>
+<div class="container text-center">
+    <p class="h1">Olá, {{ user.get_full_name }}!</p>
+    <p class="p">{% if cpf %}Será gerada uma cobrança para o cpf: <strong>{{ cpf }}</strong>. {% endif %}Assim que o
+        pagamento for
+        confirmado, o seu plano será atualizado.</p>
+    <img class="col" width="300" height="300" src="data:image/jpeg;base64,{{payment.qr_code64}}" alt="">
+    <div class="col-xs-12 col-sm-12 mb-2">
+        <label class="form-label">Copia e cola</label>
+        <input disabled class="form-control p-3" type="text" value="{{ payment.qr_code }}" id="inputTexto"/>
+        <button class="btn btn-primary mt-3" onclick="copiarTexto()" >COPIAR PIX</button>
     </div>
+
+    <script>
+        function copiarTexto() {
+            var campoDeTexto = document.getElementById("inputTexto");
+
+            var texto = campoDeTexto.value;
+
+            navigator.clipboard.writeText(texto)
+                .then(function() {
+                    texto
+                })
+                .catch(function(err) {
+                    console.error('Erro ao copiar texto: ', err);
+                });
+        }
+    </script>
+
 </div>
 {% endblock %}
