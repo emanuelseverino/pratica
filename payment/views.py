@@ -118,8 +118,8 @@ def readHook(url):
             payment = Payment.objects.get(payment_id=body['collection']['id'])
             payment.status = body['collection']['status']
             payment.status_detail = body['collection']['status_detail']
-            #if body['collection']['status'] == 'approved':
-                #payment.user.update_payment()
+            if body['collection']['status'] == 'approved':
+                payment.user.update_payment()
             payment.save()
             return True
         else:
