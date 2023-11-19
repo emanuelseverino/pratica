@@ -22,6 +22,9 @@ class Payment(models.Model):
     qr_code64 = models.CharField(max_length=6000, null=True, blank=True)
     url = models.CharField(max_length=200, null=True, blank=True)
 
+    class Meta:
+        ordering = ['-create_in', ]
+
     def __str__(self):
         return '%s - %s | %s' % (self.user, self.payment_id, self.status)
 
