@@ -32,3 +32,7 @@ class Cobranca(models.Model):
 
     def __str__(self):
         return '%s - %s' % (self.id_web, self.mensagem)
+
+
+class Texto(models.Model):
+    texto = models.TextField(max_length=1000)

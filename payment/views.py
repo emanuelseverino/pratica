@@ -10,7 +10,7 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView
 
-from payment.models import Payment, Cobranca
+from payment.models import Payment, Cobranca, Texto
 
 
 class PayView(LoginRequiredMixin, View):
@@ -133,7 +133,7 @@ class WebHook(View):
 
     def post(self, request, *args, **kwargs):
         #body = json.loads(self.request.body.decode('UTF-8'))
-        print(self.request.body.decode('UTF-8'))
+        Texto.objects.create(texto=str(self.request.body))
         #print(body)
         '''pagamento = readHook(body['resource'])
 
