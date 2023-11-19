@@ -1,12 +1,16 @@
 from django.contrib.auth import get_user_model
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.generics import UpdateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.settings import api_settings
 from rest_framework.status import HTTP_400_BAD_REQUEST
 
 from project.premissions import ExpirationPermission
-from user.api.serializers import ChangePasswordSerializer
+from user.api.serializers import ChangePasswordSerializer, CustomAuthTokenSerializer
+
+from rest_framework.authtoken.models import Token
 
 User = get_user_model()
 
@@ -41,3 +45,18 @@ class ChangePasswordView(UpdateAPIView):
             return Response(response)
 
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+
+class CustomAuthToken(ObtainAuthToken):
+    serializer_class = CustomAuthTokenSerializer
+    renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data,
+                                           context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({
+            'token': token.key,
+        })
