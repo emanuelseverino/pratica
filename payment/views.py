@@ -14,7 +14,7 @@ from payment.models import Payment, Cobranca, Texto
 
 
 def format_date(date):
-    return date.srtftime('%H:%M%S - %d/%m/%Y')
+    return date.strftime('%H:%M%S - %d/%m/%Y')
 
 class PayView(LoginRequiredMixin, View):
     login_url = '/accounts/login'
