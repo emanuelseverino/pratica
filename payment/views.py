@@ -132,8 +132,9 @@ def readHook(url):
 class WebHook(View):
 
     def post(self, request, *args, **kwargs):
-        body = json.loads(self.request.body.decode('UTF-8'))
-        print(body)
+        #body = json.loads(self.request.body.decode('UTF-8'))
+        print(self.request.body.decode('UTF-8'))
+        #print(body)
         '''pagamento = readHook(body['resource'])
 
         cobranca_id = str(body['resource']).replace('https://api.mercadolibre.com/collections/notifications/', '')
