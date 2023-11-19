@@ -1,45 +1,50 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<form method="POST" class="">
-    {% csrf_token %}
-    <h1 class="pb-3">Criar uma conta</h1>
-    <div class="row g-2">
-        <div class="col">
-            <input required autofocus name="first_name" class="form-control mb-2 p-3" type="text" placeholder="Nome">
-        </div>
-        <div class="col">
-            <input required name="last_name" class="form-control mb-2 p-3" type="text" placeholder="Sobrenome">
-        </div>
+<div class="container mt-5 d-flex justify-content-center bg-ligth">
+    <div class="col-sm-6 p-5 border rounded shadow-sm">
+        <form method="POST" class="">
+            {% csrf_token %}
+            <h1 class="pb-3">Criar uma conta</h1>
+            <div class="row g-2">
+                <div class="col">
+                    <input required autofocus name="first_name" class="form-control mb-2 p-3" type="text"
+                           placeholder="Nome">
+                </div>
+                <div class="col">
+                    <input required name="last_name" class="form-control mb-2 p-3" type="text" placeholder="Sobrenome">
+                </div>
+            </div>
+            <input required name="username" class="form-control mb-2 p-3" type="text" placeholder="username">
+            {% if form.errors.username %}
+            {% for error in form.errors.username %}
+            <small class="text-danger ms-3">{{ error }}</small><br/>
+            {% endfor %}
+            {% endif %}
+            <input required name="email" class="form-control mb-2 p-3" type="email" placeholder="e-mail">
+            {% if form.errors.email %}
+            {% for error in form.errors.email %}
+            <small class="text-danger ms-3">{{ error }}</small><br/>
+            {% endfor %}
+            {% endif %}
+            <input required name="password1" class="form-control mt-2 mb-2 p-3" type="password" placeholder="Senha">
+            {% if form.errors.password1 %}
+            {% for error in form.errors.password1 %}
+            <small class="text-danger ms-3">{{ error }}</small><br/>
+            {% endfor %}
+            {% endif %}
+            <small class="text-muted">{{form.password1.help_text}}</small>
+            <input required name="password2" class="form-control p-3" type="password" placeholder="Confirmar senha">
+            {% if form.errors.password2 %}
+            {% for error in form.errors.password2 %}
+            <small class="text-danger ms-3">{{ error }}</small><br/>
+            {% endfor %}
+            {% endif %}
+            <small class="text-muted ms-3">{{form.password2.help_text}}</small>
+            <div class="d-grid mb-1 mt-2">
+                <button type="submit" class="btn btn-primary p-3">Criar conta</button>
+            </div>
+        </form>
     </div>
-    <input required name="username" class="form-control mb-2 p-3" type="text" placeholder="username">
-    {% if form.errors.username %}
-    {% for error in form.errors.username %}
-    <small class="text-danger ms-3">{{ error }}</small><br/>
-    {% endfor %}
-    {% endif %}
-    <input required name="email" class="form-control mb-2 p-3" type="email" placeholder="e-mail">
-    {% if form.errors.email %}
-    {% for error in form.errors.email %}
-    <small class="text-danger ms-3">{{ error }}</small><br/>
-    {% endfor %}
-    {% endif %}
-    <input required name="password1" class="form-control mt-2 mb-2 p-3" type="password" placeholder="Senha">
-    {% if form.errors.password1 %}
-    {% for error in form.errors.password1 %}
-    <small class="text-danger ms-3">{{ error }}</small><br/>
-    {% endfor %}
-    {% endif %}
-    <small class="text-muted">{{form.password1.help_text}}</small>
-    <input required name="password2" class="form-control p-3" type="password" placeholder="Confirmar senha">
-    {% if form.errors.password2 %}
-    {% for error in form.errors.password2 %}
-    <small class="text-danger ms-3">{{ error }}</small><br/>
-    {% endfor %}
-    {% endif %}
-    <small class="text-muted ms-3">{{form.password2.help_text}}</small>
-    <div class="d-grid mb-1 mt-2">
-        <button type="submit" class="btn btn-dark p-3">Cadastrar</button>
-    </div>
-</form>
+</div>
 {% endblock %}
