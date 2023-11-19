@@ -73,7 +73,7 @@ class PayView(LoginRequiredMixin, View):
                 status=data['status'],
                 status_detail=data['status_detail'],
                 create_in=data['date_created'],
-                update_in=data['status'],
+                update_in=data['last_modified'],
                 payment_in=data['date_approved'],
                 description=data['description'],
                 qr_code=data['point_of_interaction']['transaction_data']['qr_code'],
