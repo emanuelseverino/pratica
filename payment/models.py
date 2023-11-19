@@ -15,8 +15,6 @@ class Payment(models.Model):
     status = models.CharField(choices=STATUS_CHOICES, max_length=20)
     status_detail = models.CharField(max_length=50, null=True, blank=True)
     create_in = models.CharField(max_length=50, null=True, blank=True)
-    update_in = models.CharField(max_length=50, null=True, blank=True)
-    payment_in = models.CharField(max_length=50, null=True, blank=True)
     description = models.CharField(max_length=30, null=True, blank=True)
     qr_code = models.CharField(max_length=10000, null=True, blank=True)
     qr_code64 = models.CharField(max_length=6000, null=True, blank=True)
