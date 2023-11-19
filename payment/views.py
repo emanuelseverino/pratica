@@ -1,6 +1,6 @@
 import requests
 import json
-
+from datetime import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -12,6 +12,10 @@ from django.views.generic import ListView
 
 from payment.models import Payment, Cobranca, Texto
 
+
+def formate_date(date):
+    date_format = datetime.fromisoformat(date.replace('Z', '+00:00'))
+    return date_format.strftime('%H:%M:%S - %d-%m-%Y')
 
 class PayView(LoginRequiredMixin, View):
     login_url = '/accounts/login'
@@ -56,8 +60,8 @@ class PayView(LoginRequiredMixin, View):
         }
         headers = {
             'Authorization': 'Bearer APP_USR-7893702088637531-012618-cd9f06ef47c005273a3cd983a2ce2902-119438936'
-            #'Authorization': 'Bearer APP_USR-660711714671368-111714-aebe3a78fc8927e8cd0b79cb46bd5b65-119438936',
-            #'x-idempotency-key': '123',
+            # 'Authorization': 'Bearer APP_USR-660711714671368-111714-aebe3a78fc8927e8cd0b79cb46bd5b65-119438936',
+            # 'x-idempotency-key': '123',
         }
 
         response = requests.post('https://api.mercadopago.com/v1/payments', json=data, headers=headers)
@@ -72,7 +76,7 @@ class PayView(LoginRequiredMixin, View):
                 payment_id=data['id'],
                 status=data['status'],
                 status_detail=data['status_detail'],
-                create_in=data['date_created'],
+                create_in=formate_date(data['date_created']),
                 description=data['description'],
                 qr_code=data['point_of_interaction']['transaction_data']['qr_code'],
                 qr_code64=data['point_of_interaction']['transaction_data']['qr_code_base64'],
@@ -106,8 +110,8 @@ class PaymentsView(LoginRequiredMixin, ListView):
 def readHook(url):
     headers = {
         'Authorization': 'Bearer APP_USR-7893702088637531-012618-cd9f06ef47c005273a3cd983a2ce2902-119438936'
-        #'Authorization': 'Bearer APP_USR-660711714671368-111714-aebe3a78fc8927e8cd0b79cb46bd5b65-119438936',
-        #'x-idempotency-key': '123'
+        # 'Authorization': 'Bearer APP_USR-660711714671368-111714-aebe3a78fc8927e8cd0b79cb46bd5b65-119438936',
+        # 'x-idempotency-key': '123'
     }
     try:
         response = requests.get(url, headers=headers)
@@ -117,9 +121,9 @@ def readHook(url):
             payment.status = body['collection']['status']
             payment.status_detail = body['collection']['status_detail']
             if body['collection']['last_modified']:
-                payment.update_in = body['collection']['last_modified']
+                payment.update_in = formate_date(body['collection']['last_modified'])
             if body['collection']['date_approved']:
-                payment.payment_in = body['collection']['date_approved']
+                payment.payment_in = formate_date(body['collection']['date_approved'])
             if body['collection']['status'] == 'approved':
                 payment.user.update_plain()
 
@@ -140,5 +144,3 @@ class WebHook(View):
         if body['resource']:
             readHook(body['resource'])
         return HttpResponse(status=200)
-
-
