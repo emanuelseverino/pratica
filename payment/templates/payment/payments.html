@@ -6,9 +6,7 @@
     <table class="table-responsive table-hover">
         <thead>
         <tr>
-            <th scope="col">id</th>
             <th scope="col">Criado</th>
-            <th scope="col">Atualizado</th>
             <th scope="col">Pago</th>
             <th scope="col">Status</th>
         </tr>
@@ -16,9 +14,7 @@
         <tbody>
         {% for payment in payments %}
         <tr>
-            <th scope="row">{{ payment.id }}</th>
             <td>{{ payment.create_in }}</td>
-            <td>{% if payment.update_in %}{{ payment.update_in }}{% else %}-{% endif %}</td>
             <td>{% if payment.payment_in %}{{ payment.payment_in }}{% else %}-{% endif %}</td>
             <td>{% if payment.status == 'approved' %}<div class="text-success">Pago</div>{% elif payment.status ==  'pending' %}<div class="text-dark">Aguardando Pagamento <a class="btn btn-primary" href="{% url 'payment' %}">Pagar</div>{% else %}<div class="text-danger">Cancelado</div>{% endif %}</td>
         </tr>
