@@ -73,8 +73,6 @@ class PayView(LoginRequiredMixin, View):
                 status=data['status'],
                 status_detail=data['status_detail'],
                 create_in=data['date_created'],
-                #update_in=data['last_modified'],
-                payment_in=data['date_approved'],
                 description=data['description'],
                 qr_code=data['point_of_interaction']['transaction_data']['qr_code'],
                 qr_code64=data['point_of_interaction']['transaction_data']['qr_code_base64'],
@@ -118,6 +116,8 @@ def readHook(url):
             payment = Payment.objects.get(payment_id=body['collection']['id'])
             payment.status = body['collection']['status']
             payment.status_detail = body['collection']['status_detail']
+            payment.update_in = body['collection']['last_modified']
+            payment.payment_in = body['collection']['date_approved']
             if body['collection']['status'] == 'approved':
                 payment.user.update_payment()
             payment.save()
