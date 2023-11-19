@@ -13,6 +13,9 @@ from django.views.generic import ListView
 from payment.models import Payment, Cobranca, Texto
 
 
+def format_date(date):
+    return date.srtftime('%H:%M%S - %d/%m/%Y')
+
 class PayView(LoginRequiredMixin, View):
     login_url = '/accounts/login'
 
@@ -72,7 +75,7 @@ class PayView(LoginRequiredMixin, View):
                 payment_id=data['id'],
                 status=data['status'],
                 status_detail=data['status_detail'],
-                create_in=data['date_created'],
+                create_in=format_date(data['date_created']),
                 description=data['description'],
                 qr_code=data['point_of_interaction']['transaction_data']['qr_code'],
                 qr_code64=data['point_of_interaction']['transaction_data']['qr_code_base64'],
@@ -117,9 +120,9 @@ def readHook(url):
             payment.status = body['collection']['status']
             payment.status_detail = body['collection']['status_detail']
             if body['collection']['last_modified']:
-                payment.update_in = body['collection']['last_modified']
+                payment.update_in = format_date(body['collection']['last_modified'])
             if body['collection']['date_approved']:
-                payment.payment_in = body['collection']['date_approved']
+                payment.payment_in = format_date(body['collection']['date_approved'])
             if body['collection']['status'] == 'approved':
                 payment.user.update_plain()
 
