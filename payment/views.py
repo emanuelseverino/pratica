@@ -37,7 +37,7 @@ class PayView(LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
         data = {
-            "transaction_amount": 0.5,
+            "transaction_amount": 27.9,
             "description": "Renovação de Plano - EstudeAPI",
             "payment_method_id": "pix",
             "payer": {
