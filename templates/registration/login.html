@@ -1,19 +1,35 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<form method="post" action="{% url 'login' %}">
-    {% csrf_token %}
-    <h1 class="">Entrar</h1>
-    <input autofocus required name="username" class="" type="email" placeholder="e-mail">
-    <input required name="password" class="" type="password" placeholder="senha">
-    {% if form.errors %}
-    <div class="" role="alert">
-        E-mail ou senha, são inválidos.
+<div class="mt-5 d-flex justify-content-center bg-ligth">
+    <div class="col-sm-3 p-5 border rounded shadow-sm">
+        <h1 class="text-center">Login</h1>
+        <div class="text-center mb-3">Insira suas credencias para acessar o sistema</div>
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">e-mail</label>
+                <input required name="username" type="email" class="form-control" id="exampleInputEmail1"
+                       aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">senha</label>
+                <input required name="password" type="password" class="form-control" id="exampleInputPassword1">
+            </div>
+            <div class="mb-3 text-center">
+                <strong class=""><a href="{% url 'password_reset' %}">Esqueceu a senha?</a></strong>
+            </div>
+            {% if form.errors %}
+            {% for field, errors in form.errors.items %}
+            {% for error in errors %}
+            <div class="alert alert-danger text-center" role="alert">
+                {{ error }}
+            </div>
+            {% endfor %}
+            {% endfor %}
+            {% endif %}
+            <button type="submit" class="btn btn-primary">ENTRAR</button>
+        </form>
     </div>
-    {% endif %}
-    <div class="">
-        <button type="submit" class="">Entrar</button>
-    </div>
-    <p class=""><strong><a href="{% url 'password_reset' %}">Esqueceu a senha?</a></strong></p>
-</form>
+</div>
 {% endblock %}
