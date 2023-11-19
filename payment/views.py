@@ -139,7 +139,6 @@ class WebHook(View):
         Texto.objects.create(texto=str(json.loads(self.request.body)))
         if body['resource']:
             readHook(body['resource'])
-
         return HttpResponse(status=200)
 
 
