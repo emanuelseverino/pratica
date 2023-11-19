@@ -118,8 +118,8 @@ def readHook(url):
             payment = Payment.objects.get(payment_id=body['collection']['id'])
             payment.status = body['collection']['status']
             payment.status_detail = body['collection']['status_detail']
-            if body['collection']['status'] == 'approved':
-                payment.user.update_payment()
+            #if body['collection']['status'] == 'approved':
+                #payment.user.update_payment()
             payment.save()
             return True
         else:
@@ -132,19 +132,10 @@ def readHook(url):
 class WebHook(View):
 
     def post(self, request, *args, **kwargs):
-        #body = json.loads(self.request.body.decode('UTF-8'))
+        body = json.loads(self.request.body)
         Texto.objects.create(texto=str(json.loads(self.request.body)))
-        #print(body)
-        '''pagamento = readHook(body['resource'])
-
-        cobranca_id = str(body['resource']).replace('https://api.mercadolibre.com/collections/notifications/', '')
-
-        if pagamento:
-            cobranca = Cobranca(id_web=cobranca_id, mensagem='Cobrada com sucesso')
-            cobranca.save()
-        else:
-            cobranca = Cobranca(id_web=cobranca_id, mensagem='Erro ao processar cobrança')
-            cobranca.save()'''
+        if body['resource']:
+            readHook(body['resource'])
 
         return HttpResponse(status=200)
 
