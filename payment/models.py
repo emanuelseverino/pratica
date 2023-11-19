@@ -36,3 +36,6 @@ class Cobranca(models.Model):
 
 class Texto(models.Model):
     texto = models.TextField(max_length=1000)
+
+    def __str__(self):
+        return '%s' % (self.texto)
