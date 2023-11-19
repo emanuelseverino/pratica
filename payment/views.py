@@ -132,11 +132,9 @@ def readHook(url):
 class WebHook(View):
 
     def post(self, request, *args, **kwargs):
-        print(self.request)
-        body = json.loads(self.request.body.decode())
-        mensagem = str(body['resource'])
-
-        pagamento = readHook(body['resource'])
+        body = json.loads(self.request.body.decode('UTF-8'))
+        print(body)
+        '''pagamento = readHook(body['resource'])
 
         cobranca_id = str(body['resource']).replace('https://api.mercadolibre.com/collections/notifications/', '')
 
@@ -145,7 +143,7 @@ class WebHook(View):
             cobranca.save()
         else:
             cobranca = Cobranca(id_web=cobranca_id, mensagem='Erro ao processar cobrança')
-            cobranca.save()
+            cobranca.save()'''
 
         return HttpResponse(status=200)
 
