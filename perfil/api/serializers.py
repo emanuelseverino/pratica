@@ -5,7 +5,7 @@ from user.models import User
 
 
 class PerfilSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(required=False)
+    email = serializers.EmailField(read_only=False)
     foto = Base64ImageField(required=False, source='image')
     usuario = serializers.CharField(source='username')
     nome = serializers.CharField(source='first_name')
@@ -17,10 +17,7 @@ class PerfilSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'foto', 'usuario', 'nome', 'sobrenome', 'email', 'latitude', 'longitude']
 
-    def validate(self, data):
-        email = data['email']
-        if email:
-            raise serializers.ValidationError('Você não pode atualizar seu e-mail')
+
 
 
     def get_object(self):
