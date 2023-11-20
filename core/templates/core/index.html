@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container text-center py-5">
     <p class="display-4">A Melhor API para Você<br>Aprender Progamar</p>
-    <p>Vários End-Points para você praticar e tirar do papel o seu projeto.</p>
+    <p>Diversos End-Points de alto desempenho, fáceis de implentar e rápidos</p>
     {% if user.is_authenticated %}
     {% if user.expiration_plain %}
     <a class="btn btn-danger" href="{% url 'payment' %}">Atualizar plano</a>
@@ -11,7 +11,32 @@
     {% else %}
     <a class="btn btn-primary" href="{% url 'register' %}">Começar agora</a>
     {% endif %}
-
 </div>
+
+<div class="container">
+    <div class="display-5">
+        Experimente
+    </div>
+    <div class="row g-3">
+        <div class="col">
+            <p>Request</p>
+            <div class="">
+                <iframe
+                        src="https://carbon.now.sh/embed?bg=rgba%28248%2C231%2C28%2C1%29&t=blackboard&wt=sharp&l=auto&width=680&ds=false&dsyoff=20px&dsblur=68px&wc=true&wa=false&pv=0px&ph=0px&ln=false&fl=1&fm=Fira+Code&fs=14px&lh=152%25&si=false&es=2x&wm=false&code=%257B%250A%2520%2509%2522email%2522%253A%2520%2522seunome%2540email.com%2522%252C%2509%250A%2520%2520%2509%2522senha%2522%253A%2520%2522abcd1234%2522%250A%2520%257D"
+                        style="width: 100%; height: 100%; border:0; transform: scale(1); overflow:hidden;"
+                        sandbox="allow-scripts allow-same-origin">
+                </iframe>
+            </div>
+        </div>
+
+        <div class="col">
+            <p>Response</p>
+            <div class="bg-dark rounded">
+
+            </div>
+        </div>
+    </div>
+</div>
+
 
 {% endblock %}

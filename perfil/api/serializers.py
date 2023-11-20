@@ -5,6 +5,7 @@ from user.models import User
 
 
 class PerfilSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(required=False)
     foto = Base64ImageField(required=False, source='image')
     usuario = serializers.CharField(source='username')
     nome = serializers.CharField(source='first_name')
