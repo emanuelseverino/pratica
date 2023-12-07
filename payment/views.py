@@ -142,8 +142,7 @@ def readHook(url):
 class WebHook(View):
 
     def post(self, request, *args, **kwargs):
-        Texto.objects.create(texto='DIR: %s' % str(dir(self.request.body)))
-        Texto.objects.create(texto='BODY: %s' % str(json.loads(self.request.body)))
+        Texto.objects.create(texto='DIR: %s' % str(self.request.body))
         # body = json.loads(self.request.body)
         # if body['resource']:
         #     readHook(body['resource'])
