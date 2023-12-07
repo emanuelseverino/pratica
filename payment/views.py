@@ -60,9 +60,8 @@ class PayView(LoginRequiredMixin, View):
             }
         }
         headers = {
-            'Authorization': 'Bearer APP_USR-7893702088637531-012618-cd9f06ef47c005273a3cd983a2ce2902-119438936'
-            # 'Authorization': 'Bearer APP_USR-1114375702126269-120713-a25141d610bf54c4370c3eacd1e76fce-1005708872'
-            # 'Authorization': 'Bearer APP_USR-660711714671368-111714-aebe3a78fc8927e8cd0b79cb46bd5b65-119438936',
+            # 'Authorization': 'Bearer APP_USR-7893702088637531-012618-cd9f06ef47c005273a3cd983a2ce2902-119438936'
+            'Authorization': 'Bearer APP_USR-1114375702126269-120713-a25141d610bf54c4370c3eacd1e76fce-1005708872'
             # 'x-idempotency-key': '123',
         }
 
@@ -111,9 +110,8 @@ class PaymentsView(LoginRequiredMixin, ListView):
 
 def readHook(url):
     headers = {
-        'Authorization': 'Bearer APP_USR-7893702088637531-012618-cd9f06ef47c005273a3cd983a2ce2902-119438936'
-        # 'Authorization': 'Bearer APP_USR-1114375702126269-120713-a25141d610bf54c4370c3eacd1e76fce-1005708872'
-        # 'Authorization': 'Bearer APP_USR-660711714671368-111714-aebe3a78fc8927e8cd0b79cb46bd5b65-119438936',
+        # 'Authorization': 'Bearer APP_USR-7893702088637531-012618-cd9f06ef47c005273a3cd983a2ce2902-119438936'
+        'Authorization': 'Bearer APP_USR-1114375702126269-120713-a25141d610bf54c4370c3eacd1e76fce-1005708872'
         # 'x-idempotency-key': '123'
     }
     try:
