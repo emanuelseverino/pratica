@@ -11,6 +11,7 @@ class ChangePasswordSerializer(serializers.Serializer):
     senha_nova = serializers.CharField(required=True)
 
 
+
 class CustomAuthTokenSerializer(serializers.Serializer):
     email = serializers.CharField(label="Email")
     senha = serializers.CharField(label="Senha", style={'input_type': 'password'}, trim_whitespace=False)
