@@ -115,7 +115,7 @@ def readHook(id):
         # 'x-idempotency-key': '123'
     }
     try:
-        response = requests.get('https://api.mercadopago.com/v1/payments/%' % id, headers=headers)
+        response = requests.get('https://api.mercadopago.com/v1/payments/%s' % id, headers=headers)
         if response.status_code == 200:
             body = response.json()
             Texto.objects.create(texto='Pagamento: %s' % str(body))
