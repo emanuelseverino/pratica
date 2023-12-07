@@ -118,6 +118,7 @@ def readHook(id):
         response = requests.get('https://api.mercadopago.com/v1/payments/%' % id, headers=headers)
         if response.status_code == 200:
             body = response.json()
+            Texto.objects.create(texto='Pagamento: %s' % str(body))
             payment = Payment.objects.get(payment_id=body['collection']['id'])
             payment.status = body['status']
             payment.status_detail = body['status_detail']
@@ -139,6 +140,7 @@ class WebHook(View):
 
     def post(self, request, *args, **kwargs):
         Texto.objects.create(texto='WebHook: %s' % str(self.request.body))
+        Texto.objects.create(texto='Response: %s' % str(dir(self.request)))
         body = json.loads(self.request.body)
         if body['data']['id']:
             readHook(body['data']['id'])
