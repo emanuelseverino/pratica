@@ -124,6 +124,7 @@ def readHook(id):
             Texto.objects.create(texto='Status: %s, Id: %s, Payment: %s' % (body['status'], body['id'], payment))
             payment.status_detail = body['status_detail']
             if body['status'] == 'approved':
+                Texto.objects.create(texto='APROVADO')
                 payment.user.update_plain()
             payment.save()
             return True
