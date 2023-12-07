@@ -142,7 +142,7 @@ def readHook(url):
 class WebHook(View):
 
     def post(self, request, *args, **kwargs):
-        Texto.objects.create(texto=str(json.loads(self.request.body)))
+        Texto.objects.create(texto=str(self.request))
         pass
         # body = json.loads(self.request.body)
         # if body['resource']:
