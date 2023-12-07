@@ -145,8 +145,7 @@ class WebHook(View):
         Texto.objects.create(texto='DIR: %s' % str(dir(self.request.body)))
         Texto.objects.create(texto='BODY: %s' % str(json.loads(self.request.body)))
         body = json.loads(self.request.body)
-        if body['resource']:
+        if body['resource'] is not None:
             readHook(body['resource'])
-            return HttpResponse(status=200)
-        else:
-            return HttpResponse(status=400)
+        return HttpResponse(status=200)
+
