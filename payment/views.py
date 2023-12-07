@@ -108,24 +108,22 @@ class PaymentsView(LoginRequiredMixin, ListView):
         return self.queryset.filter(user=self.request.user)
 
 
-def readHook(url):
+def readHook(id):
     headers = {
         # 'Authorization': 'Bearer APP_USR-7893702088637531-012618-cd9f06ef47c005273a3cd983a2ce2902-119438936'
         'Authorization': 'Bearer APP_USR-1114375702126269-120713-a25141d610bf54c4370c3eacd1e76fce-1005708872'
         # 'x-idempotency-key': '123'
     }
     try:
-        response = requests.get(url, headers=headers)
+        response = requests.get('https://api.mercadopago.com/v1/payments/%' % id, headers=headers)
         if response.status_code == 200:
             body = response.json()
             payment = Payment.objects.get(payment_id=body['collection']['id'])
-            payment.status = body['collection']['status']
-            payment.status_detail = body['collection']['status_detail']
-            if body['collection']['last_modified']:
-                payment.update_in = formate_date(body['collection']['last_modified'])
-            if body['collection']['date_approved']:
-                payment.payment_in = formate_date(body['collection']['date_approved'])
-            if body['collection']['status'] == 'approved':
+            payment.status = body['status']
+            payment.status_detail = body['status_detail']
+            if body['date_approved']:
+                payment.payment_in = formate_date(body['date_approved'])
+            if body['status'] == 'approved':
                 payment.user.update_plain()
 
             payment.save()
@@ -142,7 +140,6 @@ class WebHook(View):
     def post(self, request, *args, **kwargs):
         Texto.objects.create(texto='WebHook: %s' % str(self.request.body))
         body = json.loads(self.request.body)
-        if body['resource']:
-            readHook(body['resource'])
+        if body['data']['id']:
+            readHook(body['data']['id'])
         return HttpResponse(status=200)
-
