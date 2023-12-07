@@ -1,19 +1,23 @@
 from django.contrib.auth import get_user_model
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.generics import UpdateAPIView, GenericAPIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.generics import UpdateAPIView, GenericAPIView, CreateAPIView
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.settings import api_settings
 from rest_framework.status import HTTP_400_BAD_REQUEST
 
 from project.premissions import ExpirationPermission
-from user.api.serializers import ChangePasswordSerializer, CustomAuthTokenSerializer
+from user.api.serializers import ChangePasswordSerializer, CustomAuthTokenSerializer, RegisterSerializer
 
 from rest_framework.authtoken.models import Token
 
 User = get_user_model()
 
+class RegisterView(CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = RegisterSerializer
 
 class ChangePasswordView(UpdateAPIView):
     """

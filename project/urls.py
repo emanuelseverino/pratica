@@ -2,13 +2,18 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from rest_framework import routers
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from payment.views import WebHook
-from user.api.viewsets import CustomAuthToken
+from user.api.viewsets import CustomAuthToken, RegisterView
+
+router = routers.DefaultRouter()
+router.register(r'cadastro', RegisterView)
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
+                  path('', include(router.urls)),
                   path('', include('core.urls')),
                   path('perfil/', include('perfil.urls')),
                   path('usuarios/', include('user.urls')),

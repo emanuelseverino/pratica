@@ -7,5 +7,5 @@ from core.views import IndexView, RegisterView
 
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
-    path('cadastro/', RegisterView.as_view(), name='register')
+    path('register/', RegisterView.as_view(), name='register')
 ]
