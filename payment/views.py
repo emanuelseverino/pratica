@@ -143,8 +143,8 @@ class WebHook(View):
 
     def post(self, request, *args, **kwargs):
         Texto.objects.create(texto='DIR: %s' % str(self.request.body))
-        # body = json.loads(self.request.body)
-        # if body['resource']:
-        #     readHook(body['resource'])
+        body = json.loads(self.request.body)
+        if body['resource']:
+            readHook(body['resource'])
         return HttpResponse(status=200)
 
