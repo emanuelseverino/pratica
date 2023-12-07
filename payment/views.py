@@ -119,14 +119,12 @@ def readHook(id):
         if response.status_code == 200:
             body = response.json()
             Texto.objects.create(texto='Pagamento: %s' % str(body))
-            payment = Payment.objects.get(payment_id=body['collection']['id'])
+            payment = Payment.objects.get(payment_id=id)
             payment.status = body['status']
+            Texto.objects.create(texto='Status: %s, Id: %s' % (body['status'], body['id']))
             payment.status_detail = body['status_detail']
-            if body['date_approved']:
-                payment.payment_in = formate_date(body['date_approved'])
             if body['status'] == 'approved':
                 payment.user.update_plain()
-
             payment.save()
             return True
         else:
@@ -140,7 +138,8 @@ class WebHook(View):
 
     def post(self, request, *args, **kwargs):
         Texto.objects.create(texto='WebHook: %s' % str(self.request.body))
-        Texto.objects.create(texto='Response: %s' % str(dir(self.request)))
+        Texto.objects.create(texto='Self: %s' % str(dir(self)))
+        Texto.objects.create(texto='Request: %s' % str(dir(self.request)))
         body = json.loads(self.request.body)
         if body['data']['id']:
             readHook(body['data']['id'])
