@@ -6,6 +6,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.settings import api_settings
 from rest_framework.status import HTTP_400_BAD_REQUEST
+from rest_framework.viewsets import ModelViewSet
 
 from project.premissions import ExpirationPermission
 from user.api.serializers import ChangePasswordSerializer, CustomAuthTokenSerializer, RegisterSerializer
@@ -14,10 +15,12 @@ from rest_framework.authtoken.models import Token
 
 User = get_user_model()
 
-class RegisterView(CreateAPIView):
+
+class RegisterViewSet(CreateAPIView):
     queryset = User.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
+
 
 class ChangePasswordView(UpdateAPIView):
     """
@@ -64,5 +67,3 @@ class CustomAuthToken(ObtainAuthToken):
         return Response({
             'token': token.key,
         })
-
-

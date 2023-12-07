@@ -6,14 +6,12 @@ from rest_framework import routers
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from payment.views import WebHook
-from user.api.viewsets import CustomAuthToken, RegisterView
+from user.api.viewsets import CustomAuthToken, RegisterViewSet
 
-router = routers.DefaultRouter()
-router.register(r'cadastro', RegisterView)
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
-                  path('', include(router.urls)),
+                  path('cadastro/', RegisterViewSet.as_view(), name='auth_register'),
                   path('', include('core.urls')),
                   path('perfil/', include('perfil.urls')),
                   path('usuarios/', include('user.urls')),
