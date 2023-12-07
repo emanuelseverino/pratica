@@ -147,4 +147,6 @@ class WebHook(View):
         body = json.loads(self.request.body)
         if body['resource']:
             readHook(body['resource'])
-        return HttpResponse(status=200)
+            return HttpResponse(status=200)
+        else:
+            return HttpResponse(status=400)
