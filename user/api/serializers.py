@@ -12,29 +12,24 @@ class RegisterSerializer(serializers.Serializer):
         validators=[UniqueValidator(queryset=User.objects.all())]
     )
 
-    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
-    password2 = serializers.CharField(write_only=True, required=True)
-    username = serializers.CharField(required=True)
-    first_name = serializers.CharField(required=True)
-    last_name = serializers.CharField(required=True)
+    senha = serializers.CharField(write_only=True, required=True, validators=[validate_password], source='password')
+    csenha = serializers.CharField(write_only=True, required=True, source='password2')
+    nome = serializers.CharField(required=True, source='first_name')
+    sobrenome = serializers.CharField(required=True, source='last_name')
 
     class Meta:
         model = User
-        fields = ('username', 'password', 'password2', 'email', 'first_name', 'last_name')
-        extra_kwargs = {
-            'first_name': {'required': True},
-            'last_name': {'required': True}
-        }
+        fields = ('senha', 'csenha', 'email', 'nome', 'sobrenome')
 
     def validate(self, attrs):
-        if attrs['password'] != attrs['password2']:
-            raise serializers.ValidationError({"password": "Password fields didn't match."})
+        if attrs.get('senha') != attrs.get('csenha'):
+            raise serializers.ValidationError({"senha": "Suas senhas precisam ser iguais."})
 
         return attrs
 
     def create(self, validated_data):
+        print(validated_data)
         user = User.objects.create(
-            username=validated_data['username'],
             email=validated_data['email'],
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name']
@@ -42,7 +37,6 @@ class RegisterSerializer(serializers.Serializer):
 
         user.set_password(validated_data['password'])
         user.save()
-
         return user
 
 
@@ -51,7 +45,6 @@ class ChangePasswordSerializer(serializers.Serializer):
 
     senha_atual = serializers.CharField(required=True)
     senha_nova = serializers.CharField(required=True)
-
 
 
 class CustomAuthTokenSerializer(serializers.Serializer):
