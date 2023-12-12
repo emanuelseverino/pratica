@@ -11,7 +11,6 @@ class RegisterSerializer(serializers.Serializer):
         required=True,
         validators=[UniqueValidator(queryset=User.objects.all())]
     )
-
     senha = serializers.CharField(write_only=True, required=True, validators=[validate_password], source='password')
     csenha = serializers.CharField(write_only=True, required=True, source='password2')
     nome = serializers.CharField(required=True, source='first_name')
@@ -31,6 +30,7 @@ class RegisterSerializer(serializers.Serializer):
         print(validated_data)
         user = User.objects.create(
             email=validated_data['email'],
+            username=validated_data['email'],
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name']
         )
