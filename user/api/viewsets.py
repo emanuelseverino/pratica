@@ -64,6 +64,12 @@ class CustomAuthToken(ObtainAuthToken):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
+        if (user.expiration_plain()):
+            return Response({
+                'erro': 'Atualize seu plano',
+                'whatsapp': 'https://wa.me/5522997990159',
+                'site': 'https://estudeapi.com.br/payment/'
+            })
         return Response({
             'token': token.key,
         })
