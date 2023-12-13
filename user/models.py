@@ -1,5 +1,5 @@
 import datetime
-
+from django.utils import timezone
 from django.utils.timezone import now
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
@@ -42,6 +42,11 @@ class User(AbstractUser):
     lat = models.CharField(max_length=20, null=True, blank=True)
     long = models.CharField(max_length=20, null=True, blank=True)
     expiration = models.DateTimeField(default=now)
+
+    def save(self, *args, **kwargs):
+        um_dia = timezone.timedelta(days=1)
+        self.expiration -= um_dia
+        super().save(*args, **kwargs)
 
     def update_plain(self):
         self.expiration = datetime.datetime.now() + datetime.timedelta(days=31)
