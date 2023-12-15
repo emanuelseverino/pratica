@@ -15,8 +15,3 @@ def mul(x, y):
 def xsum(numbers):
     return sum(numbers)
 
-
-@shared_task
-def count_widgets():
-    return Widget.objects.count()
-
