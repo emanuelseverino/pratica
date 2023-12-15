@@ -4,7 +4,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.viewsets import ModelViewSet
 
 from perfil.api.serializers import PerfilSerializer
-from project.premissions import ExpirationPermission
+from project.permissions import ExpirationPermission
 from user.models import User
 
 

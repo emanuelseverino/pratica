@@ -8,7 +8,7 @@ from rest_framework.settings import api_settings
 from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.viewsets import ModelViewSet
 
-from project.premissions import ExpirationPermission
+from project.permissions import ExpirationPermission
 from user.api.serializers import ChangePasswordSerializer, CustomAuthTokenSerializer, RegisterSerializer
 
 from rest_framework.authtoken.models import Token
